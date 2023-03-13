@@ -1,15 +1,19 @@
+// 定义依赖模块
 const fs = require('fs')
 const path = require('path')
 const zlib = require('zlib')
 const rollup = require('rollup')
 const terser = require('terser')
 
+// 判断 dist 目录是否存在
 if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
 
+// 获取 需要构建的配置
 let builds = require('./config').getAllBuilds()
 
+// 过滤 配置，通过命令行参数
 // filter builds via command line arg
 if (process.argv[2]) {
   const filters = process.argv[2].split(',')
@@ -18,6 +22,7 @@ if (process.argv[2]) {
   })
 }
 
+// 构建
 build(builds)
 
 function build (builds) {

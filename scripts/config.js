@@ -8,6 +8,7 @@ const ts = require('rollup-plugin-typescript2')
 const version = process.env.VERSION || require('../package.json').version
 const featureFlags = require('./feature-flags')
 
+// 简单来说就是 vue 的一系列版本信息 和提示  横幅标语
 const banner =
   '/*!\n' +
   ` * Vue.js v${version}\n` +
@@ -15,10 +16,13 @@ const banner =
   ' * Released under the MIT License.\n' +
   ' */'
 
+// 这里 aliases 就是一个对象; 存放的项目模块的路径
 const aliases = require('./alias')
+// p 的类型是 string
 const resolve = p => {
   const base = p.split('/')[0]
   if (aliases[base]) {
+    // path.resolve nodejs 提供的路径拼接方法
     return path.resolve(aliases[base], p.slice(base.length + 1))
   } else {
     return path.resolve(__dirname, '../', p)
@@ -225,6 +229,8 @@ const builds = {
   }
 }
 
+// rollup -- 打包工具
+// rollup 打包的配置
 function genConfig(name) {
   const opts = builds[name]
   const isTargetingBrowser = !(
@@ -300,6 +306,29 @@ function genConfig(name) {
 if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
 } else {
+  // 暴露 配置获取方法 exports.getAllBuilds
   exports.getBuild = genConfig
+  // 通过Object.keys()获取 builds 对应key 的数组
+  // [ 'runtime-cjs-dev','runtime-cjs-prod','full-cjs-dev',...]
+  // 再通过 .map方法 返回函数处理后的 rollup所需要的配置 array.map(function(currentValue,index,arr), thisValue)
+  /*  具体示例
+  // {
+  //   input: 'E:\\workspace\\vue3-source\\vue\\src\\platforms\\web\\entry-runtime.ts',
+  //   external: undefined,
+  //   plugins: [ [Object], [Object], [Object] ],
+  //   output: {
+  //     file: 'E:\\workspace\\vue3-source\\vue\\dist\\vue.runtime.common.dev.js',
+  //     format: 'cjs',
+  //     banner: '/!*!\n' +
+  //       ' * Vue.js v2.7.14\n' +
+  //       ' * (c) 2014-2023 Evan You\n' +
+  //       ' * Released under the MIT License.\n' +
+  //       ' *!/',
+  //     name: 'Vue',
+  //     exports: 'auto'
+  //   },
+  //   onwarn: [Function: onwarn]
+  // }
+  */
   exports.getAllBuilds = () => Object.keys(builds).map(genConfig)
 }
