@@ -1,11 +1,11 @@
-// 定义依赖模块
-const fs = require('fs')
-const path = require('path')
-const zlib = require('zlib')
-const rollup = require('rollup')
-const terser = require('terser')
+// 引用Nodejs 依赖模块
+const fs = require('fs') // nodejs 文件系统
+const path = require('path') // nodejs path 路径模块
+const zlib = require('zlib') // nodejs 压缩
+const rollup = require('rollup') // rollup JavaScript 打包器
+const terser = require('terser') // JavaScript管理器和压缩器工具包
 
-// 判断 dist 目录是否存在
+// 判断 dist 目录是否存在 不存在就创建dist目录
 if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
