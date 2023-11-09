@@ -10,21 +10,27 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist')
 }
 
-// 获取 需要构建的配置
+// 获取 构建配置文件
 let builds = require('./config').getAllBuilds()
 
-// 过滤 配置，通过命令行参数
+// 过滤配置，通过命令行参数过滤出满足条件的配置
 // filter builds via command line arg
-if (process.argv[2]) {
+if (process.argv[2]) { // process.argv[2] == 脚本携带的第一个参数
   const filters = process.argv[2].split(',')
+  // Array.filter() 返回条件为true 的数组
   builds = builds.filter(b => {
+    // Array.some() 只要满足一项条件，就整体返回true
+    // indexOf() 只要不存在就返回 -1，否则就返回遍历到的第一个满足元素的下标
     return filters.some(f => b.output.file.indexOf(f) > -1 || b._name.indexOf(f) > -1)
   })
 }
-
-// 构建
+// 构建Vuejs
 build(builds)
 
+/**
+ * 通过function 声明函数，引擎会自动提升函数到顶部
+ */
+// 构建方法
 function build (builds) {
   let built = 0
   const total = builds.length
