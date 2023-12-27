@@ -1,3 +1,4 @@
+// 初始化全局API 扩展Vue 的 prototype(原型) 的方法 和 全局的静态⽅法
 import config from '../config'
 import { initUse } from './use'
 import { initMixin } from './mixin'

@@ -46,6 +46,7 @@ function build (builds) {
   next()
 }
 
+// rollup构建入口
 function buildEntry (config) {
   const output = config.output
   const { file, banner } = output

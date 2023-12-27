@@ -233,6 +233,7 @@ export function toArray(list: any, start?: number): Array<any> {
 }
 
 /**
+ * 混合 属性 到 目标对象
  * Mix properties into target object.
  */
 export function extend(

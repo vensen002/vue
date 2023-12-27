@@ -2,6 +2,7 @@ import config from 'core/config'
 import { warn, cached } from 'core/util/index'
 import { mark, measure } from 'core/util/perf'
 
+// Vue 引入
 import Vue from './runtime/index'
 import { query } from './util/index'
 import { compileToFunctions } from './compiler/index'
@@ -107,4 +108,5 @@ function getOuterHTML(el: Element): string {
 
 Vue.compile = compileToFunctions
 
+// 默认导出Vue 并断言类型（更换类型）
 export default Vue as GlobalAPI
