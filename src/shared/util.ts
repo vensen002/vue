@@ -59,6 +59,9 @@ export function toRawType(value: any): string {
  * Strict object type check. Only returns true
  * for plain JavaScript objects.
  */
+/**
+ * 严格的对象类型检查。仅对纯 JavaScript 对象返回 true。
+ */
 export function isPlainObject(obj: any): boolean {
   return _toString.call(obj) === '[object Object]'
 }
@@ -149,6 +152,7 @@ export function remove(arr: Array<any>, item: any): Array<any> | void {
 
 /**
  * Check whether an object has the property.
+ * 检查对象是否具有该属性
  */
 const hasOwnProperty = Object.prototype.hasOwnProperty
 export function hasOwn(obj: Object | Array<any>, key: string): boolean {

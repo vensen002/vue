@@ -8,6 +8,8 @@ export const unicodeRegExp =
 
 /**
  * Check if a string starts with $ or _
+ * 检查一个string 是否以 $ / _ 开始
+ * 检查是否是保留关键字
  */
 export function isReserved(str: string): boolean {
   const c = (str + '').charCodeAt(0)

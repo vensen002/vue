@@ -13,6 +13,7 @@ import { EffectScope } from 'v3/reactivity/effectScope'
 
 let uid = 0
 
+// 初始化混入
 export function initMixin(Vue: typeof Component) {
   Vue.prototype._init = function (options?: Record<string, any>) {
     const vm: Component = this

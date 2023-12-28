@@ -14,6 +14,7 @@ export const isPhantomJS = UA && /phantomjs/.test(UA)
 export const isFF = UA && UA.match(/firefox\/(\d+)/)
 
 // Firefox has a "watch" function on Object.prototype...
+// Firefox在Object.prototype上有一个“watch”功能…
 // @ts-expect-error firebox support
 export const nativeWatch = {}.watch
 

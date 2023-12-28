@@ -39,6 +39,7 @@ const sharedPropertyDefinition = {
   set: noop
 }
 
+// 代理data
 export function proxy(target: Object, sourceKey: string, key: string) {
   sharedPropertyDefinition.get = function proxyGetter() {
     return this[sourceKey][key]
@@ -49,21 +50,27 @@ export function proxy(target: Object, sourceKey: string, key: string) {
   Object.defineProperty(target, key, sharedPropertyDefinition)
 }
 
+// 初始化 state
 export function initState(vm: Component) {
   const opts = vm.$options
+  // props 存在 初始化Props
   if (opts.props) initProps(vm, opts.props)
 
   // Composition API
   initSetup(vm)
 
+  // methods 存在 初始化methods
   if (opts.methods) initMethods(vm, opts.methods)
+  // data 存在 初始data 否则 监听vm._data 并赋值为空
   if (opts.data) {
     initData(vm)
   } else {
     const ob = observe((vm._data = {}))
     ob && ob.vmCount++
   }
+  // 初始化 computed
   if (opts.computed) initComputed(vm, opts.computed)
+  // watch 存在并且不是 nativeWatch 初始化 watch
   if (opts.watch && opts.watch !== nativeWatch) {
     initWatch(vm, opts.watch)
   }
@@ -119,9 +126,13 @@ function initProps(vm: Component, propsOptions: Object) {
   toggleObserving(true)
 }
 
+// 初始化 data
 function initData(vm: Component) {
+  // 从options 获取 data
   let data: any = vm.$options.data
+  // 判断 data 是否一个function， 是通过getData() 获取data对象 否：data存在赋值data，否则赋值默认空对象
   data = vm._data = isFunction(data) ? getData(data, vm) : data || {}
+  // 是否是纯JavaScript Object
   if (!isPlainObject(data)) {
     data = {}
     __DEV__ &&
@@ -136,6 +147,7 @@ function initData(vm: Component) {
   const props = vm.$options.props
   const methods = vm.$options.methods
   let i = keys.length
+  // 检查 data的key 是否 在 props、methods 存在， 存在warn 警告
   while (i--) {
     const key = keys[i]
     if (__DEV__) {
@@ -150,11 +162,12 @@ function initData(vm: Component) {
             `Use prop default value instead.`,
           vm
         )
-    } else if (!isReserved(key)) {
+    } else if (!isReserved(key)) { // 判断key 是否是vue保留关键字 以$/_开始
+      // 代理data
       proxy(vm, `_data`, key)
     }
   }
-  // observe data
+  // observe data 监听data
   const ob = observe(data)
   ob && ob.vmCount++
 }

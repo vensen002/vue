@@ -22,7 +22,7 @@ const aliases = require('./alias')
 const resolve = p => {
   const base = p.split('/')[0]
   if (aliases[base]) {
-    // path.resolve nodejs 提供的路径拼接方法
+    // path.resolve nodejs 提供的路径拼接方法  string.slice(start,end?) 包前不包后，没有end时，默认到末尾
     return path.resolve(aliases[base], p.slice(base.length + 1))
   } else {
     return path.resolve(__dirname, '../', p)
@@ -311,7 +311,7 @@ if (process.env.TARGET) {
   // 通过Object.keys()获取 builds 对应key 的数组
   // [ 'runtime-cjs-dev','runtime-cjs-prod','full-cjs-dev',...]
   // 再通过 .map方法 返回函数处理后的 rollup所需要的配置 array.map(function(currentValue,index,arr), thisValue)
-  /*  具体示例
+  /*  结果示例
   // {
   //   input: 'E:\\workspace\\vue3-source\\vue\\src\\platforms\\web\\entry-runtime.ts',
   //   external: undefined,

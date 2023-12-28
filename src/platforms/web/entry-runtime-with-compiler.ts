@@ -1,5 +1,6 @@
 // 引入Vue
 import Vue from './runtime-with-compiler'
+// v2 -> v3
 import * as vca from 'v3'
 import { extend } from 'shared/util'
 
